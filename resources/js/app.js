@@ -5,6 +5,7 @@ import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
+import NavigationBar from "./components/common/NavigationBar";
 import ItemList from "./components/items/ItemList";
 import LoginForm from './components/users/LoginForm';
 import RegisterForm from "./components/users/RegisterForm";
@@ -23,9 +24,7 @@ const router = new VueRouter({
 const app = new Vue({
     el: '#app',
     components: {
-        ItemList,
-        LoginForm,
-        RegisterForm
+        NavigationBar
     },
     router
 });

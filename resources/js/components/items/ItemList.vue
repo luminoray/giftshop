@@ -1,6 +1,6 @@
 <template>
     <div id="item-list">
-        Welcome {{ this.user.name }}!
+        Under construction!
     </div>
 </template>
 

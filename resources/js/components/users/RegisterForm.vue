@@ -1,6 +1,8 @@
 <template>
     <div id="register">
         <h1>Register</h1>
+        <p>Welcome to GiftShop! Please provide us with the data requested and you will be shopping in no time!</p>
+        <p>Already have an account? <router-link :to="{name: 'login'}">Login instead</router-link>!</p>
         <form @submit="register">
             <div class="mb-3">
                 <label class="form-label">Name</label>

@@ -1,6 +1,8 @@
 <template>
     <div id="login">
         <h1>Login</h1>
+        <p>Welcome back dear customer! Please fill out the form to login and continue shopping.</p>
+        <p>Don't have an account yet? <router-link :to="{name: 'register'}">Register now</router-link>!</p>
         <form @submit="login">
             <div class="mb-3">
                 <label class="form-label">E-Mail</label>

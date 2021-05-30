@@ -9,7 +9,10 @@
 </head>
 <body>
 <div id="app">
-    <router-view :user="{{ $user }}"></router-view>
+    <navigation-bar :user="{{ $user }}"></navigation-bar>
+    <div class="container">
+        <router-view></router-view>
+    </div>
 </div>
 <script src="{{ mix('/js/app.js') }}" type="application/javascript"></script>
 </body>
