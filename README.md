@@ -31,6 +31,7 @@ composer update -a
 npm install
 npm run prod
 php artisan migrate --seed
+php artisan storage:link
 ```
 
 The default admin account credentials are:

@@ -10,8 +10,8 @@
 <body>
 <div id="app">
     <navigation-bar :user="{{ $user }}"></navigation-bar>
-    <div class="container">
-        <router-view></router-view>
+    <div class="container mt-5">
+        <router-view :user="{{ $user }}"></router-view>
     </div>
 </div>
 <script src="{{ mix('/js/app.js') }}" type="application/javascript"></script>

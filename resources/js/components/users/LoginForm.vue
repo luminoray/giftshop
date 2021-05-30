@@ -31,7 +31,6 @@
         methods: {
             login(e) {
                 e.preventDefault();
-                let current = this;
                 axios.post('http://localhost/login', {
                     email: this.email,
                     password: this.password

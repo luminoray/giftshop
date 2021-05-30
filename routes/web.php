@@ -17,6 +17,16 @@ Route::get('/', function () {
     return view('vue', ['user' => json_encode(Auth::user())]);
 });
 
+Route::get('/items/{url?}', function ($url = null) {
+    return view('vue', ['user' => json_encode(Auth::user())]);
+})->where(['url' => '[0-9]+']);
+
+Route::middleware('admin')->group(function () {
+    Route::get('/items/create', function () {
+        return view('vue', ['user' => json_encode(Auth::user())]);
+    });
+});
+
 Route::middleware('guest')->group(function () {
     Route::get('/{url}', function () {
         return view('vue', ['user' => json_encode(Auth::user())]);
