@@ -14,5 +14,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('vue', ['user' => json_encode(Auth::user())]);
+});
+
+Route::middleware('guest')->group(function () {
+    Route::get('/{url}', function () {
+        return view('vue', ['user' => json_encode(Auth::user())]);
+    })->where(['url' => 'login|register']);
 });
