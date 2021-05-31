@@ -10,10 +10,22 @@ use Illuminate\Support\Facades\Validator;
 
 class ItemService
 {
-    public function get()
+    const DEFAULT_LIMIT = 12;
+
+    public function get(array $input)
     {
-        return Item::orderBy('updated_at', 'desc')
-            ->paginate(10)
+        $query = Item::orderBy('updated_at', 'desc');
+
+        if (isset($input['category'])) {
+            $query = $query->where('category', $input['category']);
+        }
+
+        if (isset($input['ids'])) {
+            $query = $query->whereIn('id', $input['ids']);
+        }
+
+        return $query->simplePaginate($input['limit'] ?? self::DEFAULT_LIMIT)
+            ->withQueryString()
             ->through(function ($item) {
                 return new ItemResource($item);
             });

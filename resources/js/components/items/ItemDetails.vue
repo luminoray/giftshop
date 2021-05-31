@@ -1,5 +1,5 @@
 <template>
-    <div id="item-details" class="row gx-5">
+    <div id="item-details" class="row gx-5" v-show="Object.keys(item).length">
         <div id="item-photo" class="col-md-6 col-xl-7 d-flex justify-content-center align-items-center">
             <img v-if="item.file" class="mw-100 mh-50" :src="'/storage/items/' + item.file" alt="">
         </div>
@@ -9,12 +9,14 @@
             <p>{{ item.description }}</p>
             <p>Category: {{ item.category }}</p>
             <p class="fs-4">${{ item.price }}</p>
-            <button class="btn btn-primary w-100 fs-3 mb-3">Add to cart</button>
+            <add-cart-button class="w-100 fs-3 mb-3" :item-id="item.id"></add-cart-button>
             <div id="admin-buttons" class="d-flex" v-if="user ? user.admin : false">
                 <router-link class="btn btn-warning fs-5 flex-fill" :to="{name: 'item-edit', params: {id: id}}">Edit item</router-link>
                 <button class="btn btn-danger fs-5 flex-fill" data-bs-toggle="modal" data-bs-target="#delete-modal">Delete item</button>
             </div>
         </div>
+        <h3 class="mt-5">Related Items</h3>
+        <item-list :compact="true" :category="category" :wait="true" :limit="4"></item-list>
         <div id="delete-modal" class="modal" tabindex="-1" v-if="user ? user.admin : false">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -36,16 +38,26 @@
 </template>
 
 <script>
+    import ItemList from "./ItemList";
+    import AddCartButton from "./AddCartButton";
+
     export default {
         name: "ItemDetails",
+        components: {AddCartButton, ItemList},
         props: ['id', 'user'],
         data() {
             return {
                 item: {},
+                category: undefined
             };
         },
         mounted() {
             this.getItem();
+        },
+        watch:{
+            $route (to, from) {
+                this.getItem();
+            }
         },
         methods: {
             getItem() {
@@ -54,6 +66,7 @@
                 axios.get('/api/items/' + this.id)
                     .then(function (response) {
                         current.item = response.data;
+                        current.category = response.data.category;
                     })
                     .catch(function (error) {
                         current.$router.replace({ name: 'items'});

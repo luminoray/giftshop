@@ -8,35 +8,51 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <router-link class="nav-link active" :to="{name: 'items'}">Shop</router-link>
+                        <router-link class="nav-link" :to="{name: 'items'}">Shop</router-link>
+                    </li>
+                    <li class="nav-item">
+                        <router-link class="nav-link" :to="{name: 'cart'}">Cart <span class="badge bg-primary">{{cartSize}}</span></router-link>
                     </li>
                     <li class="nav-item" v-if="user ? user.admin : false">
-                        <router-link class="nav-link active" :to="{name: 'item-create'}">Add Item</router-link>
+                        <router-link class="nav-link" :to="{name: 'item-create'}">Add Item</router-link>
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto">
-                    <li v-if="user" class="nav-item">
-                        <a @click="logout" class="nav-link active" href="/logout">Logout</a>
+                    <li class="nav-item" v-if="user">
+                        <a @click="logout" class="nav-link" href="/logout">Logout</a>
                     </li>
                     <template v-else>
                         <li class="nav-item">
-                            <router-link class="nav-link active" :to="{name: 'login'}">Login</router-link>
+                            <router-link class="nav-link" :to="{name: 'login'}">Login</router-link>
                         </li>
                         <li class="nav-item">
-                            <router-link class="nav-link active" :to="{name: 'register'}">Register</router-link>
+                            <router-link class="nav-link" :to="{name: 'register'}">Register</router-link>
                         </li>
                     </template>
                 </ul>
             </div>
-
         </div>
     </nav>
 </template>
 
 <script>
+    import EventBus from "../../event-bus";
+
     export default {
         name: "NavigationBar",
         props: ["user"],
+        data() {
+            return {
+                cartSize: 0
+            };
+        },
+        mounted() {
+            let current = this;
+            this.cartSize = Object.keys(JSON.parse(this.$cookie.get('cart')) ?? {}).length;
+            EventBus.$on('updateCart', function (cart) {
+                current.cartSize = Object.keys(cart).length;
+            });
+        },
         methods: {
             logout(e) {
                 e.preventDefault();

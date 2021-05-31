@@ -14,9 +14,15 @@ class ItemController extends Controller
         $this->itemService = $itemService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        return response()->json($this->itemService->get(), 200);
+        $input = $request->only([
+            'limit',
+            'category',
+            'ids'
+        ]);
+
+        return response()->json($this->itemService->get($input), 200);
     }
 
     public function show($id)

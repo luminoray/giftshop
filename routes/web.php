@@ -30,6 +30,10 @@ Route::middleware('admin')->group(function () {
     })->where(['id' => '[0-9]+']);
 });
 
+Route::get('/cart', function () {
+    return view('vue', ['user' => json_encode(Auth::user())]);
+});
+
 Route::middleware('guest')->group(function () {
     Route::get('/{url}', function () {
         return view('vue', ['user' => json_encode(Auth::user())]);

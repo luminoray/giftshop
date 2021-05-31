@@ -20,11 +20,11 @@
             <div class="mb-3">
                 <label class="form-label">Category</label>
                 <select class="form-select" v-model="category">
-                    <option value="0" selected="selected">Uncategorized</option>
-                    <option value="1">Art</option>
-                    <option value="2">Cooking</option>
-                    <option value="3">Hobby</option>
-                    <option value="4">Technology</option>
+                    <option value="1" selected="selected">Uncategorized</option>
+                    <option value="2">Art</option>
+                    <option value="3">Cooking</option>
+                    <option value="4">Hobby</option>
+                    <option value="5">Technology</option>
                 </select>
             </div>
             <div class="mb-3">

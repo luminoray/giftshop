@@ -4,8 +4,10 @@ require('./bootstrap');
 
 import Vue from 'vue';
 import VueRouter from 'vue-router';
+import VueCookie from 'vue-cookie';
 
 Vue.use(VueRouter);
+Vue.use(VueCookie);
 
 import NavigationBar from "./components/common/NavigationBar";
 
