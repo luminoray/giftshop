@@ -10,7 +10,7 @@
                     <li class="nav-item">
                         <router-link class="nav-link active" :to="{name: 'items'}">Shop</router-link>
                     </li>
-                    <li class="nav-item" v-if="user.admin">
+                    <li class="nav-item" v-if="user ? user.admin : false">
                         <router-link class="nav-link active" :to="{name: 'item-create'}">Add Item</router-link>
                     </li>
                 </ul>
@@ -40,7 +40,7 @@
         methods: {
             logout(e) {
                 e.preventDefault();
-                axios.post('http://localhost/logout')
+                axios.post('/logout')
                     .then(function (response) {
                         if (response.status == 204) {
                             window.location.reload();

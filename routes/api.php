@@ -18,8 +18,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('/items', [\App\Http\Controllers\ItemController::class, 'index']);
+Route::get('/items/{id}', [\App\Http\Controllers\ItemController::class, 'show']);
+
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
-    Route::get('/items', [\App\Http\Controllers\ItemController::class, 'index']);
     Route::post('/items', [\App\Http\Controllers\ItemController::class, 'store']);
+    Route::put('/items/{id}', [\App\Http\Controllers\ItemController::class, 'update']);
+    Route::delete('/items/{id}', [\App\Http\Controllers\ItemController::class, 'destroy']);
 });
 

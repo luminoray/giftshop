@@ -1,4 +1,4 @@
-import ItemCreateForm from "./components/items/ItemCreateForm";
+import ItemCreateForm from "./components/items/ItemForm";
 
 require('./bootstrap');
 

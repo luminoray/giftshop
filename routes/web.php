@@ -17,14 +17,17 @@ Route::get('/', function () {
     return view('vue', ['user' => json_encode(Auth::user())]);
 });
 
-Route::get('/items/{url?}', function ($url = null) {
+Route::get('/items/{id?}', function () {
     return view('vue', ['user' => json_encode(Auth::user())]);
-})->where(['url' => '[0-9]+']);
+})->where(['id' => '[0-9]+']);
 
 Route::middleware('admin')->group(function () {
     Route::get('/items/create', function () {
         return view('vue', ['user' => json_encode(Auth::user())]);
     });
+    Route::get('/items/{id}/edit', function () {
+        return view('vue', ['user' => json_encode(Auth::user())]);
+    })->where(['id' => '[0-9]+']);
 });
 
 Route::middleware('guest')->group(function () {

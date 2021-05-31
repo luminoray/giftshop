@@ -1,7 +1,7 @@
 <template>
-    <div id="item-create">
-        <h1>Item Creation</h1>
-        <form @submit="createItem">
+    <div id="item-submit">
+        <h1>Item Submission</h1>
+        <form @submit="submitItem">
             <div class="mb-3">
                 <label class="form-label">Upload photo</label>
                 <input @change="updateFile" class="form-control" type="file" ref="file">
@@ -32,7 +32,7 @@
                 <textarea class="form-control" v-model="description"></textarea>
             </div>
             <div class="mb-3">
-                <button class="btn btn-primary" type="submit">Create</button>
+                <button class="btn btn-primary" type="submit">Submit</button>
             </div>
         </form>
     </div>
@@ -40,35 +40,84 @@
 
 <script>
     export default {
-        name: "ItemCreateForm",
+        name: "ItemForm",
+        props: ['id'],
         data() {
             return {
-                file: undefined,
+                file: '',
                 name: '',
                 price: 0,
                 category: 0,
                 description: ''
             };
         },
+        mounted() {
+            if (this.id) {
+                this.getItem();
+            }
+        },
         methods: {
             updateFile() {
                 this.file = this.$refs.file.files[0];
             },
-            createItem(e) {
+            getItem() {
+                let current = this;
+                current.item = {};
+                axios.get('/api/items/' + this.id)
+                    .then(function (response) {
+                        current.name = response.data.name;
+                        current.price = response.data.price;
+                        current.category = response.data.category;
+                        current.description = response.data.description;
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            submitItem(e) {
                 e.preventDefault();
+                if (this.id) {
+                    this.updateItem();
+                } else {
+                    this.createItem();
+                }
+            },
+            updateItem(e) {
+                let current = this;
+                let formData = new FormData;
+                formData.append('_method', 'PUT');
+                formData.append('file', this.file);
+                formData.append('name', this.name);
+                formData.append('price', this.price);
+                formData.append('category', this.category);
+                formData.append('description', this.description);
+                axios.post('/api/items/' + this.id, formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                })
+                    .then(function (response) {
+                        current.$router.push({ name: 'item-detail', params: {id: current.id}});
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            createItem(e) {
+                let current = this;
                 let formData = new FormData;
                 formData.append('file', this.file);
                 formData.append('name', this.name);
                 formData.append('price', this.price);
                 formData.append('category', this.category);
                 formData.append('description', this.description);
-                axios.post('http://localhost/api/items', formData, {
+                axios.post('/api/items', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
                 })
                     .then(function (response) {
-
+                        current.$router.push({ name: 'item-detail', params: {id: response.data.id}});
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -77,7 +126,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-</style>

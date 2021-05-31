@@ -19,6 +19,11 @@ class ItemController extends Controller
         return response()->json($this->itemService->get(), 200);
     }
 
+    public function show($id)
+    {
+        return response()->json($this->itemService->find($id), 200);
+    }
+
     public function store(Request $request)
     {
         $input = $request->only([
@@ -30,5 +35,25 @@ class ItemController extends Controller
         ]);
 
         return response()->json($this->itemService->create($input), 201);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $input = $request->only([
+            'file',
+            'name',
+            'price',
+            'category',
+            'description'
+        ]);
+
+        return response()->json($this->itemService->update($id, $input), 200);
+    }
+
+    public function destroy($id)
+    {
+        $this->itemService->destroy($id);
+
+        return response('', 200);
     }
 }

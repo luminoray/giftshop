@@ -41,7 +41,7 @@ export default {
     methods: {
         register(e) {
             e.preventDefault();
-            axios.post('http://localhost/register', {
+            axios.post('/register', {
                 name: this.name,
                 email: this.email,
                 password: this.password,
