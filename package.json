@@ -1,5 +1,8 @@
 {
     "private": true,
+    "engines": {
+        "node": "16.x"
+    },
     "scripts": {
         "postinstall": "npm run production",
         "dev": "npm run development",
